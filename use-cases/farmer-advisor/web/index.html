@@ -388,14 +388,14 @@
       </header>
 
       <!-- chat -->
-      <div id="chat" class="flex-1 overflow-y-auto">
-        <div class="mx-auto w-full max-w-3xl px-5 py-8 space-y-6" id="messages"></div>
+      <div id="chat" class="flex-1 overflow-y-auto flex flex-col">
+        <div class="mx-auto w-full max-w-3xl px-5 py-8 space-y-6 flex-1 flex flex-col" id="messages"></div>
       </div>
 
       <!-- composer -->
       <div class="px-5 pb-5 pt-2">
         <div class="mx-auto max-w-3xl">
-          <div id="chips" class="mb-3 flex snap-x snap-mandatory flex-nowrap gap-2 overflow-x-auto">
+          <div id="chips" class="mb-3 flex flex-wrap justify-center gap-2">
             <!-- filled by JS -->
           </div>
           <form id="composer">
@@ -444,8 +444,11 @@
     const CHIPS = [
       "🌱 මගේ වී කොළ වල අළු පැල්ලම් තියෙනවා",
       "💰 දඹුල්ලේ තක්කාලි මිල කීයද?",
-      "⛅ හෙට නුවර spray කරන්න හොඳද?",
-      "☔ මේ සතියේ වැස්ස කොහොමද?",
+      "🌱 තක්කාලි ගහේ කොළ හැකිලිලා",
+      "💰 පෑලියගොඩ අර්තාපල් මිල කොහොමද?",
+      "🌱 පොල් ගස් වල සුදු පාට කෘමියෙක් ඉන්නවා",
+      "💰 නුවර සහ කොළඹ මිරිස් මිල සංසන්දනය කරන්න",
+      "🌱 කෙසෙල් කොළ වල කහ පාට ඉරි තියෙනවා",
     ];
     // thinking-status scripts per domain; cycled while waiting for the first token
     const THINKING = {
@@ -514,7 +517,7 @@
     function renderEmptyState() {
       const d = document.createElement("div");
       d.id = "empty-state";
-      d.className = "flex min-h-full flex-col justify-center py-8 text-center anim-in";
+      d.className = "m-auto flex flex-col justify-center py-8 text-center anim-in";
       d.innerHTML = `
     <div class="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-[20px] bg-primary text-3xl shadow-lg shadow-primary/20">🌾</div>
     <p class="mb-4 font-mono text-[10px] font-medium uppercase tracking-eyebrow text-mute">Crop diseases · Market prices · Weather</p>
@@ -528,8 +531,13 @@
     function renderConversation() {
       messages.innerHTML = "";
       const c = activeConvo();
-      if (!c || !c.messages.length) renderEmptyState();
-      else c.messages.forEach((m) => renderMessage(m, false));
+      if (!c || !c.messages.length) {
+        renderEmptyState();
+        $("chips").classList.remove("hidden");
+      } else {
+        $("chips").classList.add("hidden");
+        c.messages.forEach((m) => renderMessage(m, false));
+      }
       scrollDown(true);
     }
     function nearBottom() { return chat.scrollHeight - chat.scrollTop - chat.clientHeight < 120; }
@@ -642,6 +650,7 @@
       if (c.title === "New chat") c.title = userMsg.text.slice(0, 42);
       c.ts = Date.now(); saveConvos(); renderSidebar();
       $("empty-state")?.remove();
+      $("chips").classList.add("hidden");
       renderMessage(userMsg); scrollDown(true);
 
       const payload = { prompt: text.trim() || "Please look at this photo of my plant.", agent: selectedAgent, session_id: c.sid };
@@ -736,7 +745,7 @@
 
     /* ── chips ── */
     $("chips").innerHTML = CHIPS.map((t) =>
-      `<button type="button" data-chip title="${t}" class="min-w-0 flex-1 truncate whitespace-nowrap rounded-full border border-hairline bg-canvas-soft px-3 py-2 text-center text-[12px] text-body shadow-sm transition-colors hover:border-primary-deep hover:text-ink">${t}</button>`).join("");
+      `<button type="button" data-chip title="${t}" class="flex-shrink-0 whitespace-nowrap rounded-full border border-hairline bg-canvas-soft px-3 py-2 text-center text-[12px] text-body shadow-sm transition-colors hover:border-primary-deep hover:text-ink">${t}</button>`).join("");
     document.querySelectorAll("[data-chip]").forEach((b) => b.addEventListener("click", () => sendMessage(b.textContent.trim().replace(/^\S+\s/, ""))));
 
     /* ── advisors + health ── */
