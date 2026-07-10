@@ -1,0 +1,14 @@
+{
+  "as_of": "2026-07-10",
+  "currency": "LKR",
+  "unit": "kg",
+  "prices": {
+    "rice": {"Pettah": 220, "Dambulla": 205, "Kandy": 215},
+    "tomato": {"Pettah": 340, "Dambulla": 290, "Kandy": 320},
+    "chili": {"Pettah": 950, "Dambulla": 880, "Kandy": 910},
+    "banana": {"Pettah": 180, "Dambulla": 150, "Kandy": 170},
+    "coconut": {"Pettah": 145, "Dambulla": 130, "Kandy": 140},
+    "onion": {"Pettah": 310, "Dambulla": 280, "Kandy": 300},
+    "potato": {"Pettah": 265, "Dambulla": 240, "Kandy": 255}
+  }
+}

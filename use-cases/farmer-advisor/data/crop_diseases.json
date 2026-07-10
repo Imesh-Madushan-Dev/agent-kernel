@@ -1,0 +1,42 @@
+[
+  {
+    "id": "rice_blast",
+    "crop": "rice",
+    "disease": "Rice Blast",
+    "symptoms": ["diamond shaped lesions", "gray spots on leaves", "white center spots", "dried leaf tips"],
+    "treatment": "Apply tricyclazole-based fungicide (e.g. Beam 75WP) at first sign. Drain the field to reduce humidity.",
+    "prevention": "Use resistant varieties (Bg 403, Bg 406). Avoid excess nitrogen fertilizer. Maintain proper spacing."
+  },
+  {
+    "id": "leaf_curl",
+    "crop": "chili",
+    "disease": "Chili Leaf Curl Virus",
+    "symptoms": ["curled leaves", "upward curling", "stunted growth", "yellowing leaves"],
+    "treatment": "No cure for infected plants; remove and destroy them. Control whitefly vector with neem oil or imidacloprid.",
+    "prevention": "Use virus-free seedlings, install yellow sticky traps, keep field weed-free."
+  },
+  {
+    "id": "late_blight",
+    "crop": "tomato",
+    "disease": "Late Blight",
+    "symptoms": ["dark brown patches", "water soaked spots", "white mold under leaves", "rotting fruit"],
+    "treatment": "Spray mancozeb or chlorothalonil every 7 days. Remove infected plants immediately.",
+    "prevention": "Avoid overhead watering, ensure good drainage, rotate crops yearly."
+  },
+  {
+    "id": "black_sigatoka",
+    "crop": "banana",
+    "disease": "Black Sigatoka",
+    "symptoms": ["black streaks on leaves", "yellow streaks", "leaf spots merging", "premature leaf death"],
+    "treatment": "Remove infected leaves and burn them. Apply propiconazole fungicide.",
+    "prevention": "Improve air circulation between plants, avoid waterlogging, apply potassium-rich fertilizer."
+  },
+  {
+    "id": "coconut_mite",
+    "crop": "coconut",
+    "disease": "Coconut Mite Infestation",
+    "symptoms": ["triangular whitish patches on nuts", "scarred nut surface", "distorted small nuts"],
+    "treatment": "Spray neem oil (2%) or approved acaricide on young bunches.",
+    "prevention": "Field sanitation, remove fallen nuts, encourage predatory mites."
+  }
+]

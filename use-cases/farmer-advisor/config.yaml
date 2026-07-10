@@ -1,0 +1,12 @@
+# Agent Kernel configuration for Farmer Advisor
+session:
+  type: in_memory # switch to redis for production
+
+whatsapp:
+  agent: orchestrator
+  agent_acknowledgement: "Got it, checking for you..."
+  # verify_token / access_token / app_secret / phone_number_id come from env (AK_WHATSAPP__*)
+
+logging:
+  ak:
+    level: INFO

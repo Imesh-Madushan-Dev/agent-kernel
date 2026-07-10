@@ -1,0 +1,28 @@
+[project]
+name = "farmer-advisor"
+version = "0.1.0"
+description = "WhatsApp multi-agent assistant for smallholder farmers, built on Agent Kernel + Google ADK (SDG 2)"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "agentkernel[cli,adk]>=0.6.0",
+    "pyreadline3>=3.4 ; sys_platform == 'win32'",
+]
+
+[dependency-groups]
+dev = [
+    "agentkernel[test]>=0.6.0",
+    "black==26.5.1",
+    "isort>=5.0.0",
+]
+
+[tool.uv]
+package = false
+
+[tool.isort]
+profile = "black"
+line_length = 120
+
+[tool.black]
+line-length = 120
+target-version = ["py312"]
