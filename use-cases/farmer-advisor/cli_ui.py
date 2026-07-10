@@ -150,7 +150,10 @@ async def run() -> None:
             try:
                 with console.status("[green3]consulting the field experts…[/]", spinner="dots", spinner_style="yellow1"):
                     reply = await service.run(prompt=prompt)
+                console.print()
                 _print_reply(service.agent.name, reply)
+                console.print()
+                console.print()
             except (KeyboardInterrupt, asyncio.CancelledError):
                 console.print("[dim]✋ request cancelled — ask me something else[/]\n")
         except (KeyboardInterrupt, EOFError):

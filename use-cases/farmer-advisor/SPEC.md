@@ -10,7 +10,7 @@ WhatsApp assistant for smallholder farmers (SDG 2 — Zero Hunger).
 - `weather` — 3-day forecast + spray/irrigation advice (`get_forecast`).
 
 ## Framework
-Google ADK (Gemini 2.0 Flash) via Agent Kernel (`GoogleADKModule`).
+Google ADK (Gemini 3.1 Flash-Lite) via Agent Kernel (`GoogleADKModule`).
 
 ## Interface
 WhatsApp (Agent Kernel native channel, config-driven in `config.yaml`). CLI for local dev.

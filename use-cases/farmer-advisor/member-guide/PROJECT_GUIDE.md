@@ -1,4 +1,4 @@
-# Farmer Advisor - Project Guide (Sinhala)
+# Farmer Advisor - Project Guide
 
 මේ guide එකෙන් කියන්නේ අපේ මුළු repository එකේ තියෙන folders මොනවද, ඒවා මොකටද තියෙන්නේ, කොහොමද වැඩ කරන්නේ සහ අපිට ඒවගෙන් ඇති වැඩේ මොකක්ද කියලා.
 
