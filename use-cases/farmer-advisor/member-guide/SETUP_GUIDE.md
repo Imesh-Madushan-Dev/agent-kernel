@@ -20,7 +20,7 @@ Install වුනාට පස්සේ PowerShell එක restart කරලා `
 ඔයාගේ PowerShell එකේ project එක කරන folder එකට ගිහින් මෙහෙම run කරන්න:
 ```powershell
 # Clone the repository
-git clone https://github.com/yaalalabs/agent-kernel.git
+git clone https://github.com/Imesh-Madushan-Dev/agent-kernel.git
 cd agent-kernel
 
 # Upstream link කරගන්න
