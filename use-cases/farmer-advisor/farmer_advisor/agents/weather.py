@@ -3,6 +3,8 @@ from google.adk.agents import Agent
 
 from farmer_advisor.tools import get_forecast
 
+from .language import LANGUAGE_RULES
+
 MODEL = "gemini-3.1-flash-lite"
 
 weather_agent = Agent(
@@ -14,7 +16,7 @@ weather_agent = Agent(
     Always use the get_forecast tool. Advise on spraying (avoid before rain/wind) and
     irrigation (skip if rain is coming) based on the forecast.
     Keep answers short and simple. Refuse non-farming questions.
-    Always reply in the same language the farmer writes in — English or Sinhala (සිංහල). Translate tool results into that language.
-    """,
+    """
+    + LANGUAGE_RULES,
     tools=GoogleADKToolBuilder.bind([get_forecast]),
 )

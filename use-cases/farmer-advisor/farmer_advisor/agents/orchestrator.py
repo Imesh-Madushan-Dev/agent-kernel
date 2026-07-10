@@ -1,6 +1,7 @@
 from google.adk.agents import LlmAgent
 
 from .crop_disease import crop_disease_agent
+from .language import LANGUAGE_RULES
 from .market_price import market_price_agent
 from .weather import weather_agent
 
@@ -16,7 +17,7 @@ orchestrator = LlmAgent(
     Price/market/selling questions -> action.transfer_to_agent to "market_price".
     Weather/rain/spraying/irrigation timing questions -> action.transfer_to_agent to "weather".
     Greetings/small talk: reply briefly and say you can help with crop diseases, market prices and weather.
-    Always reply in the same language the farmer writes in — English or Sinhala (සිංහල). Translate tool results into that language.
-    """,
+    """
+    + LANGUAGE_RULES,
     sub_agents=[crop_disease_agent, market_price_agent, weather_agent],
 )

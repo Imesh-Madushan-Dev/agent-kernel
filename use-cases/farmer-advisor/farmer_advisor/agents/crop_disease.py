@@ -3,6 +3,8 @@ from google.adk.agents import Agent
 
 from farmer_advisor.tools import diagnose_from_symptoms, get_treatment
 
+from .language import LANGUAGE_RULES
+
 MODEL = "gemini-3.1-flash-lite"
 
 crop_disease_agent = Agent(
@@ -19,7 +21,7 @@ crop_disease_agent = Agent(
     Always use the diagnose_from_symptoms tool to diagnose; use get_treatment for a known disease.
     Reply with: disease name, confidence, treatment steps, and prevention tips.
     Keep answers short and simple — farmers read them on WhatsApp. Refuse non-farming questions.
-    Always reply in the same language the farmer writes in — English or Sinhala (සිංහල). Translate tool results into that language.
-    """,
+    """
+    + LANGUAGE_RULES,
     tools=GoogleADKToolBuilder.bind([diagnose_from_symptoms, get_treatment]),
 )
