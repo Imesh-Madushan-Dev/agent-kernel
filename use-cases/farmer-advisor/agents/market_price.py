@@ -3,7 +3,7 @@ from google.adk.agents import Agent
 
 from tools import get_price
 
-MODEL = "gemini-2.0-flash"
+MODEL = "gemini-flash"
 
 market_price_agent = Agent(
     name="market_price",

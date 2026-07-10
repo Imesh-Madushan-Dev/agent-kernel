@@ -4,6 +4,13 @@ Run locally:  python main.py   (CLI)
 WhatsApp:     serve the AK API and point the Meta webhook at it (see README).
 """
 
+import logging
+
+from dotenv import load_dotenv
+
+load_dotenv()  # GOOGLE_API_KEY + AK_WHATSAPP__* from .env, before any agentkernel/ADK import
+logging.getLogger("ak").setLevel(logging.WARNING)  # silence framework INFO logs before module build
+
 from agentkernel.adk import GoogleADKModule
 
 from agents import crop_disease_agent, market_price_agent, orchestrator, weather_agent

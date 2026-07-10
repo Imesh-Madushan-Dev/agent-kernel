@@ -3,7 +3,7 @@ from google.adk.agents import Agent
 
 from tools import diagnose_from_symptoms, get_treatment
 
-MODEL = "gemini-2.0-flash"
+MODEL = "gemini-flash"
 
 crop_disease_agent = Agent(
     name="crop_disease",

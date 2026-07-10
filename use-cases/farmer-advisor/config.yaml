@@ -9,4 +9,4 @@ whatsapp:
 
 logging:
   ak:
-    level: INFO
+    level: WARNING # INFO is noisy in the chat UI

@@ -4,7 +4,7 @@ from .crop_disease import crop_disease_agent
 from .market_price import market_price_agent
 from .weather import weather_agent
 
-MODEL = "gemini-2.0-flash"
+MODEL = "gemini-flash"
 
 orchestrator = LlmAgent(
     name="orchestrator",
