@@ -90,7 +90,12 @@ def _help_panel() -> Panel:
 
 def _print_reply(agent_name: str, reply: str) -> None:
     icon, _, _ = AGENTS.get(agent_name, ("🤖", "", ""))
-    console.print(f"[bold green3]{icon} advisor[/] [bold green]❯[/] {reply}", style="grey85")
+    # same layout as before (reply starts beside the prefix) but rendered as markdown
+    grid = Table.grid(padding=(0, 1))
+    grid.add_column(no_wrap=True)
+    grid.add_column(overflow="fold")
+    grid.add_row(f"[bold green3]{icon} advisor[/] [bold green]❯[/]", Markdown(str(reply), style="grey85"))
+    console.print(grid)
 
 
 def _clear_screen() -> None:
@@ -148,7 +153,9 @@ async def run() -> None:
                 continue
 
             try:
-                with console.status("[green3]consulting the field experts…[/]", spinner="dots", spinner_style="yellow1"):
+                icon, role, _ = AGENTS.get(name, ("🤖", "", ""))
+                # ponytail: AK hooks can't observe mid-run agent handoffs, so the spinner shows the entry agent
+                with console.status(f"[bold green3]{icon} {name}[/] [dim]· {role} is working on it…[/]", spinner="dots", spinner_style="green3"):
                     reply = await service.run(prompt=prompt)
                 console.print()
                 _print_reply(service.agent.name, reply)

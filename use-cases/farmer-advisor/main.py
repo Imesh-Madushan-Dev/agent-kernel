@@ -22,6 +22,16 @@ for agent in all_agents:
     module.pre_hook(agent, [PIIRedactHook(), ContentFilterHook()])
 
 if __name__ == "__main__":
-    import cli_ui
+    import sys
 
-    cli_ui.main()
+    if len(sys.argv) > 1 and sys.argv[1] == "serve":
+        # WhatsApp + Telegram webhooks on the AK REST API (/whatsapp/webhook, /telegram/webhook)
+        from agentkernel.api import RESTAPI
+        from agentkernel.telegram import AgentTelegramRequestHandler
+        from agentkernel.whatsapp import AgentWhatsAppRequestHandler
+
+        RESTAPI.run(handlers=[AgentWhatsAppRequestHandler(), AgentTelegramRequestHandler()])
+    else:
+        import cli_ui
+
+        cli_ui.main()

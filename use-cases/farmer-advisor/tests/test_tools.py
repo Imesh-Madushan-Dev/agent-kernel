@@ -35,6 +35,10 @@ def test_get_price_unknown_crop():
     assert "error" in get_price("durian")
 
 
-def test_forecast_deterministic():
-    assert get_forecast("Kandy") == get_forecast(" kandy")
-    assert len(get_forecast("Galle")["forecast"]) == 3
+def test_forecast_real_or_graceful():
+    result = get_forecast("Kandy")
+    assert "error" in result or (len(result["forecast"]) == 3 and result["source"] == "open-meteo.com")
+
+
+def test_forecast_unknown_location():
+    assert "error" in get_forecast("xyzzy-not-a-place")

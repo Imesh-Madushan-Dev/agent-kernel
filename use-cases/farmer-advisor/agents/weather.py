@@ -14,6 +14,7 @@ weather_agent = Agent(
     Always use the get_forecast tool. Advise on spraying (avoid before rain/wind) and
     irrigation (skip if rain is coming) based on the forecast.
     Keep answers short and simple. Refuse non-farming questions.
+    Always reply in the same language the farmer writes in — English or Sinhala (සිංහල). Translate tool results into that language.
     """,
     tools=GoogleADKToolBuilder.bind([get_forecast]),
 )

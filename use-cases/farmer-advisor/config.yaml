@@ -7,6 +7,10 @@ whatsapp:
   agent_acknowledgement: "Got it, checking for you..."
   # verify_token / access_token / app_secret / phone_number_id come from env (AK_WHATSAPP__*)
 
+telegram:
+  agent: orchestrator
+  # bot_token / webhook_secret come from env (AK_TELEGRAM__*)
+
 logging:
   ak:
     level: WARNING # INFO is noisy in the chat UI
