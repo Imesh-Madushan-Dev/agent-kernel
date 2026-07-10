@@ -2,17 +2,25 @@
 
 import asyncio
 import logging
+import os
 import sys
+import warnings
 
 # Windows consoles may default to cp1252, which can't print emoji/box glyphs
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+# Keep the chat clean: no ADK experimental warnings, no framework tracebacks/log noise
+warnings.filterwarnings("ignore")
+for noisy in ("ak", "google_adk", "google.adk", "google_genai", "httpx"):
+    logging.getLogger(noisy).setLevel(logging.CRITICAL)
 
 from agentkernel.core import AgentService
 from rich import box
 from rich.align import Align
 from rich.console import Console, Group
 from rich.markdown import Markdown
+from rich.padding import Padding
 from rich.panel import Panel
 from rich.rule import Rule
 from rich.table import Table
@@ -80,20 +88,19 @@ def _help_panel() -> Panel:
     return Panel(table, title="[bold cyan] commands [/]", box=box.ROUNDED, border_style="cyan", expand=False)
 
 
-def _reply_panel(agent_name: str, reply: str) -> Panel:
-    icon, role, _ = AGENTS.get(agent_name, ("🤖", "", ""))
-    return Panel(
-        Markdown(str(reply)),
-        title=f"[bold green3]{icon} {agent_name}[/] [dim]· {role}[/]",
-        title_align="left",
-        box=box.ROUNDED,
-        border_style="green3",
-        padding=(1, 2),
-    )
+def _print_reply(agent_name: str, reply: str) -> None:
+    icon, _, _ = AGENTS.get(agent_name, ("🤖", "", ""))
+    console.print(f"[bold green3]{icon} advisor[/] [bold green]❯[/] {reply}", style="grey85")
+
+
+def _clear_screen() -> None:
+    # works across PowerShell, cmd, Windows Terminal and POSIX shells
+    os.system("cls" if os.name == "nt" else "clear")
+    console.clear()
 
 
 def _welcome(service: AgentService) -> None:
-    console.clear()
+    _clear_screen()
     console.print(_header())
     console.print(_agent_panel(service))
     console.print(Align.center(Text("Ask anything about your crops — type !h for commands, !q to quit", style="dim italic")))
@@ -108,7 +115,11 @@ async def run() -> None:
     while True:
         try:
             name = service.agent.name if service.agent else "none"
-            prompt = console.input(f"[bold yellow1]🧑‍🌾 you[/][dim] → {name}[/] [bold green]❯[/] ")
+            try:
+                prompt = console.input(f"[bold yellow1]🧑‍🌾 you[/][dim] → {name}[/] [bold green]❯[/] ")
+            except (KeyboardInterrupt, EOFError):
+                console.print("\n[bold green]Happy farming! 🌾[/]")
+                break
             if not prompt.strip():
                 continue
             if prompt.startswith("!"):
@@ -136,10 +147,12 @@ async def run() -> None:
                     console.print("[red]unknown command[/] — type [cyan]!h[/] for help\n")
                 continue
 
-            with console.status("[green3]consulting the field experts…[/]", spinner="dots", spinner_style="yellow1"):
-                reply = await service.run(prompt=prompt)
-            console.print(_reply_panel(service.agent.name, reply))
-            console.print()
+            try:
+                with console.status("[green3]consulting the field experts…[/]", spinner="dots", spinner_style="yellow1"):
+                    reply = await service.run(prompt=prompt)
+                _print_reply(service.agent.name, reply)
+            except (KeyboardInterrupt, asyncio.CancelledError):
+                console.print("[dim]✋ request cancelled — ask me something else[/]\n")
         except (KeyboardInterrupt, EOFError):
             console.print("\n[bold green]Happy farming! 🌾[/]")
             break
