@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Farmer Advisor 🌾</title>
+<style>
+  :root { --bg:#0b141a; --panel:#111b21; --mine:#005c4b; --theirs:#202c33; --text:#e9edef; --dim:#8696a0; --accent:#00a884; }
+  * { box-sizing:border-box; margin:0; }
+  body { background:var(--bg); color:var(--text); font-family:"Segoe UI","Noto Sans Sinhala",system-ui,sans-serif; height:100dvh; display:flex; flex-direction:column; }
+  header { background:var(--panel); padding:12px 18px; display:flex; align-items:center; gap:12px; border-bottom:1px solid #222d34; }
+  header .avatar { font-size:26px; }
+  header h1 { font-size:16px; }
+  header p { font-size:12px; color:var(--dim); }
+  #chat { flex:1; overflow-y:auto; padding:18px 12%; display:flex; flex-direction:column; gap:6px;
+          background-image:radial-gradient(#182229 1px, transparent 1px); background-size:22px 22px; }
+  .msg { max-width:70%; padding:8px 12px; border-radius:8px; font-size:14.5px; line-height:1.45; white-space:pre-wrap; word-wrap:break-word; }
+  .me   { align-self:flex-end; background:var(--mine); border-top-right-radius:0; }
+  .bot  { align-self:flex-start; background:var(--theirs); border-top-left-radius:0; }
+  .bot ul { margin:4px 0 4px 20px; }
+  .bot strong { color:#ffd166; }
+  .typing { color:var(--dim); font-style:italic; }
+  form { display:flex; gap:10px; padding:12px 12%; background:var(--panel); }
+  input { flex:1; background:#2a3942; border:none; border-radius:22px; padding:12px 18px; color:var(--text); font-size:15px; font-family:inherit; outline:none; }
+  button { background:var(--accent); border:none; border-radius:50%; width:46px; height:46px; font-size:18px; cursor:pointer; color:#fff; }
+  button:disabled { opacity:.5; }
+  @media (max-width:700px){ #chat,form{ padding-left:4%; padding-right:4%; } .msg{ max-width:85%; } }
+</style>
+</head>
+<body>
+<header>
+  <span class="avatar">🧑‍🌾</span>
+  <div><h1>Farmer Advisor</h1><p>crop diseases · market prices · weather — English / සිංහල</p></div>
+</header>
+<div id="chat">
+  <div class="msg bot">ආයුබෝවන්! 🌾 Ask me about crop diseases, market prices, or the weather — in English or Sinhala.</div>
+</div>
+<form id="f">
+  <input id="box" placeholder="Type a message… (ඕනෑම භාෂාවකින් අහන්න)" autocomplete="off" autofocus>
+  <button id="send">➤</button>
+</form>
+<script>
+const API = `${location.protocol}//${location.hostname}:8000/api/v1/chat`;
+const sid = localStorage.fa_sid || (localStorage.fa_sid = crypto.randomUUID());
+const chat = document.getElementById("chat"), box = document.getElementById("box"), send = document.getElementById("send");
+
+// minimal markdown: **bold** and "* " bullets — enough for the agents' replies
+function md(t){
+  t = t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
+  const lines = t.split("\n"); let out = "", inList = false;
+  for (const l of lines){
+    if (/^\s*[*-] /.test(l)){ if(!inList){ out+="<ul>"; inList=true; } out += "<li>"+l.replace(/^\s*[*-] /,"")+"</li>"; }
+    else { if(inList){ out+="</ul>"; inList=false; } out += l+"\n"; }
+  }
+  return out + (inList?"</ul>":"");
+}
+function add(cls, html){ const d=document.createElement("div"); d.className="msg "+cls; d.innerHTML=html; chat.appendChild(d); chat.scrollTop=chat.scrollHeight; return d; }
+
+document.getElementById("f").addEventListener("submit", async e => {
+  e.preventDefault();
+  const text = box.value.trim(); if(!text) return;
+  add("me", md(text)); box.value=""; send.disabled=true;
+  const typing = add("bot typing","advisor is typing…");
+  try{
+    const r = await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({prompt:text, agent:"orchestrator", session_id:sid})});
+    const data = await r.json();
+    typing.outerHTML="";
+    add("bot", md(data.result ?? data.error ?? "Something went wrong. Try again."));
+  }catch(err){ typing.outerHTML=""; add("bot","⚠ Can't reach the server. Is `python main.py serve` running?"); }
+  send.disabled=false; box.focus();
+});
+</script>
+</body>
+</html>

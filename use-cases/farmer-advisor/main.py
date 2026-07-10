@@ -25,12 +25,23 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) > 1 and sys.argv[1] == "serve":
-        # WhatsApp + Telegram webhooks on the AK REST API (/whatsapp/webhook, /telegram/webhook)
+        # REST API + web chat UI (/) + WhatsApp & Telegram webhooks (/whatsapp/webhook, /telegram/webhook)
         from agentkernel.api import RESTAPI
+        from agentkernel.api.handler import AgentRESTRequestHandler
         from agentkernel.telegram import AgentTelegramRequestHandler
         from agentkernel.whatsapp import AgentWhatsAppRequestHandler
 
-        RESTAPI.run(handlers=[AgentWhatsAppRequestHandler(), AgentTelegramRequestHandler()])
+        from api import web_router
+
+        handlers = [AgentRESTRequestHandler()]
+        for channel in (AgentWhatsAppRequestHandler, AgentTelegramRequestHandler):
+            try:
+                handlers.append(channel())
+            except ValueError as e:  # channel creds not in .env -> serve without it
+                print(f"[skip] {channel.__name__}: {e}")
+
+        RESTAPI.add(web_router)
+        RESTAPI.run(handlers=handlers)
     else:
         import cli_ui
 

@@ -2,6 +2,9 @@
 session:
   type: in_memory # switch to redis for production
 
+api:
+  custom_router_prefix: "" # serve the web chat UI at / instead of /custom/
+
 whatsapp:
   agent: orchestrator
   agent_acknowledgement: "Got it, checking for you..."
