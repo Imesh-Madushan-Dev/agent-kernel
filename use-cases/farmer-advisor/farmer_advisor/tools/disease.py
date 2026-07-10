@@ -1,4 +1,4 @@
-"""Business logic for the Farmer Advisor agents. Pure functions over local JSON data.
+"""Crop-disease diagnosis tools. Pure functions over the local JSON knowledge base.
 
 ponytail: local JSON knowledge base; swap the loaders for real APIs when available.
 """
@@ -6,7 +6,7 @@ ponytail: local JSON knowledge base; swap the loaders for real APIs when availab
 import json
 from pathlib import Path
 
-_DATA = Path(__file__).parent / "data"
+_DATA = Path(__file__).parents[1] / "data"
 
 
 def _diseases() -> list[dict]:
@@ -47,83 +47,3 @@ def get_treatment(disease_id: str) -> dict:
         if entry["id"] == disease_id:
             return {"disease": entry["disease"], "treatment": entry["treatment"], "prevention": entry["prevention"]}
     return {"error": f"Unknown disease id '{disease_id}'. Known: {[e['id'] for e in _diseases()]}"}
-
-
-def get_price(crop: str, market: str = "") -> dict:
-    """Get the current market price for a crop.
-
-    :param crop: crop name, e.g. "rice", "tomato"
-    :param market: optional market name (Pettah, Dambulla, Kandy); empty returns all markets
-    """
-    data = json.loads((_DATA / "market_prices.sample.json").read_text(encoding="utf-8"))
-    prices = data["prices"].get(crop.lower().strip())
-    if prices is None:
-        return {"error": f"No price data for '{crop}'. Available: {list(data['prices'])}"}
-    if market:
-        match = next((m for m in prices if m.lower() == market.lower().strip()), None)
-        if match is None:
-            return {"error": f"No data for market '{market}'. Available: {list(prices)}"}
-        prices = {match: prices[match]}
-    return {"crop": crop.lower().strip(), "prices": prices, "unit": f"{data['currency']}/{data['unit']}", "as_of": data["as_of"]}
-
-
-# WMO weather codes -> farmer-friendly description
-_WMO = {0: "clear sky", 1: "mostly clear", 2: "partly cloudy", 3: "overcast", 45: "fog", 48: "fog", 51: "light drizzle", 53: "drizzle", 55: "heavy drizzle", 61: "light rain", 63: "rain", 65: "heavy rain", 80: "rain showers", 81: "rain showers", 82: "violent rain showers", 95: "thunderstorm", 96: "thunderstorm with hail", 99: "thunderstorm with hail"}
-
-
-def get_forecast(location: str) -> dict:
-    """Get a real 3-day weather forecast for a location (Open-Meteo, no API key).
-
-    :param location: town or district name, e.g. "Kandy"
-    """
-    import httpx
-
-    try:
-        geo = httpx.get(
-            "https://geocoding-api.open-meteo.com/v1/search",
-            params={"name": location.strip(), "count": 1, "language": "en"},
-            timeout=10,
-        ).json()
-        place = geo["results"][0]
-        wx = httpx.get(
-            "https://api.open-meteo.com/v1/forecast",
-            params={
-                "latitude": place["latitude"],
-                "longitude": place["longitude"],
-                "daily": "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_speed_10m_max",
-                "forecast_days": 3,
-                "timezone": "auto",
-            },
-            timeout=10,
-        ).json()["daily"]
-        days = [
-            {
-                "date": wx["time"][i],
-                "condition": _WMO.get(wx["weather_code"][i], "unknown"),
-                "temp_max_c": wx["temperature_2m_max"][i],
-                "temp_min_c": wx["temperature_2m_min"][i],
-                "rain_chance_pct": wx["precipitation_probability_max"][i],
-                "max_wind_kmh": wx["wind_speed_10m_max"][i],
-            }
-            for i in range(len(wx["time"]))
-        ]
-        return {"location": place["name"], "country": place.get("country", ""), "forecast": days, "source": "open-meteo.com"}
-    except (KeyError, IndexError):
-        return {"error": f"Could not find location '{location}'. Ask the farmer for the nearest town name."}
-    except Exception as e:  # network down -> degrade gracefully, don't crash the agent
-        return {"error": f"Weather service unavailable ({type(e).__name__}). Ask the farmer to try again later."}
-
-
-if __name__ == "__main__":  # self-check
-    d = diagnose_from_symptoms("rice", "I see gray spots on leaves and dried leaf tips")
-    assert d["disease"] == "Rice Blast", d
-    assert diagnose_from_symptoms("rice", "purple polka dots")["disease"] in ("unknown", "Rice Blast")
-    assert "treatment" in get_treatment("late_blight")
-    assert "error" in get_treatment("nope")
-    p = get_price("tomato", "pettah")
-    assert p["prices"] == {"Pettah": 340}, p
-    assert "error" in get_price("durian")
-    f = get_forecast("Kandy")
-    assert "error" in f or len(f["forecast"]) == 3, f
-    assert "error" in get_forecast("xyzzy-not-a-place")
-    print("tools self-check OK")

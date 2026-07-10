@@ -13,8 +13,8 @@ logging.getLogger("ak").setLevel(logging.WARNING)  # silence framework INFO logs
 
 from agentkernel.adk import GoogleADKModule
 
-from agents import crop_disease_agent, market_price_agent, orchestrator, weather_agent
-from guardrails import ContentFilterHook, PIIRedactHook
+from farmer_advisor.agents import crop_disease_agent, market_price_agent, orchestrator, weather_agent
+from farmer_advisor.hooks import ContentFilterHook, PIIRedactHook
 
 all_agents = [orchestrator, crop_disease_agent, market_price_agent, weather_agent]
 module = GoogleADKModule(all_agents)
@@ -31,7 +31,7 @@ if __name__ == "__main__":
         from agentkernel.telegram import AgentTelegramRequestHandler
         from agentkernel.whatsapp import AgentWhatsAppRequestHandler
 
-        from api import web_router
+        from farmer_advisor.api import web_router
 
         handlers = [AgentRESTRequestHandler()]
         for channel in (AgentWhatsAppRequestHandler, AgentTelegramRequestHandler):
@@ -43,6 +43,6 @@ if __name__ == "__main__":
         RESTAPI.add(web_router)
         RESTAPI.run(handlers=handlers)
     else:
-        import cli_ui
+        from farmer_advisor import cli
 
-        cli_ui.main()
+        cli.main()

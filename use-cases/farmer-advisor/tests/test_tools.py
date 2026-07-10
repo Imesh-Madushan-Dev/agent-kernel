@@ -3,7 +3,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parents[1]))
 
-from tools import diagnose_from_symptoms, get_forecast, get_price, get_treatment
+from farmer_advisor.tools import diagnose_from_symptoms, get_forecast, get_price, get_treatment
 
 
 def test_diagnose_known_disease():

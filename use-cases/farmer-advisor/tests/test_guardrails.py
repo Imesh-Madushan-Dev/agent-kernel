@@ -7,7 +7,7 @@ sys.path.insert(0, str(Path(__file__).parents[1]))
 
 from agentkernel.core.model import AgentReplyText, AgentRequestText
 
-from guardrails import ContentFilterHook, PIIRedactHook
+from farmer_advisor.hooks import ContentFilterHook, PIIRedactHook
 
 
 @pytest.mark.asyncio

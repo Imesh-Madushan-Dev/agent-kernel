@@ -5,7 +5,7 @@ from pathlib import Path
 from fastapi import APIRouter
 from fastapi.responses import FileResponse
 
-_WEB_DIR = Path(__file__).parents[1] / "web"
+_WEB_DIR = Path(__file__).parents[2] / "web"
 
 web_router = APIRouter()
 

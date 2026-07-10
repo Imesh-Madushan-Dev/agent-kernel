@@ -5,6 +5,9 @@ session:
 api:
   custom_router_prefix: "" # serve the web chat UI at / instead of /custom/
 
+execution:
+  mode: stream # /api/v1/chat streams SSE tokens; WhatsApp/Telegram webhooks and the CLI are unaffected
+
 whatsapp:
   agent: orchestrator
   agent_acknowledgement: "Got it, checking for you..."

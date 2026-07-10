@@ -1,7 +1,7 @@
 from agentkernel.adk import GoogleADKToolBuilder
 from google.adk.agents import Agent
 
-from tools import get_forecast
+from farmer_advisor.tools import get_forecast
 
 MODEL = "gemini-3.1-flash-lite"
 
