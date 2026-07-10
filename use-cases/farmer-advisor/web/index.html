@@ -11,6 +11,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Sinhala:wght@400;600&display=swap"
     rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
   <script>
     // set theme before first paint to avoid flash
     const saved = localStorage.fa_theme;
@@ -307,20 +308,14 @@
           </p>
         </div>
         <button id="sidebar-close" class="ml-auto rounded-md p-1.5 text-mute hover:text-ink lg:hidden" title="Close">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round">
-            <path d="M18 6 6 18M6 6l12 12" />
-          </svg>
+          <iconify-icon icon="hugeicons:cancel-01" class="text-[18px]"></iconify-icon>
         </button>
       </div>
 
       <div class="px-4 pb-3">
         <button id="new-chat"
           class="flex w-full items-center gap-2 rounded-2xl bg-primary px-4 py-3 text-[13px] font-semibold text-[#102416] shadow-sm transition-colors hover:bg-primary-deep">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round">
-            <path d="M12 5v14M5 12h14" />
-          </svg>
+          <iconify-icon icon="hugeicons:plus-sign" class="text-[16px]"></iconify-icon>
           New chat
         </button>
       </div>
@@ -349,20 +344,14 @@
       <!-- top bar -->
       <header class="relative flex items-center gap-2 border-b border-hairline px-4 py-3 sm:px-6">
         <button id="sidebar-open" class="rounded-md p-2 text-mute hover:text-ink lg:hidden" title="Menu">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round">
-            <path d="M4 7h16M4 12h16M4 17h16" />
-          </svg>
+          <iconify-icon icon="hugeicons:menu-01" class="text-[20px]"></iconify-icon>
         </button>
 
         <!-- advisor selector -->
         <button id="agent-trigger"
           class="flex items-center gap-2 rounded-2xl px-3 py-2 text-[14px] font-semibold text-ink transition-colors hover:bg-canvas">
           <span id="agent-trigger-label">🧭 Auto</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" class="text-mute">
-            <path d="m6 9 6 6 6-6" />
-          </svg>
+          <iconify-icon icon="hugeicons:arrow-down-01" class="text-[14px] text-mute"></iconify-icon>
         </button>
         <div id="agent-menu"
           class="surface t-dropdown absolute left-4 top-full z-50 mt-2 w-72 rounded-2xl border border-hairline bg-canvas-soft p-2"
@@ -373,16 +362,8 @@
         <div class="ml-auto flex items-center gap-1">
           <button id="theme-toggle" class="icon-button rounded-xl p-2 text-mute transition-colors hover:text-ink"
             title="Toggle theme">
-            <svg id="icon-sun" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="2" stroke-linecap="round" class="hidden">
-              <circle cx="12" cy="12" r="4" />
-              <path
-                d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
-            </svg>
-            <svg id="icon-moon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="2" stroke-linecap="round" class="hidden">
-              <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z" />
-            </svg>
+            <iconify-icon id="icon-sun" icon="hugeicons:sun-01" class="text-[19px] hidden"></iconify-icon>
+            <iconify-icon id="icon-moon" icon="hugeicons:moon-02" class="text-[19px] hidden"></iconify-icon>
           </button>
         </div>
       </header>
@@ -401,25 +382,17 @@
           <form id="composer">
             <div id="img-preview" class="hidden mb-2"></div>
             <div
-              class="surface flex items-end gap-2 rounded-[24px] border border-hairline bg-canvas px-3 py-2.5 transition-colors focus-within:border-primary-deep focus-within:ring-4 focus-within:ring-primary/10">
+              class="surface flex items-center gap-2 rounded-[24px] border border-hairline bg-canvas px-3 py-2.5 transition-colors focus-within:border-primary-deep focus-within:ring-4 focus-within:ring-primary/10">
               <label for="file-input" class="cursor-pointer rounded-md p-2 text-mute transition-colors hover:text-ink"
                 title="Attach a plant photo">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="3" width="18" height="18" rx="2" />
-                  <circle cx="8.5" cy="8.5" r="1.5" />
-                  <path d="m21 15-5-5L5 21" />
-                </svg>
+                <iconify-icon icon="hugeicons:image-01" class="text-[20px]"></iconify-icon>
               </label>
               <input id="file-input" type="file" accept="image/*" class="hidden">
               <textarea id="box" rows="1" placeholder="Ask about your crops…" autocomplete="off"
                 class="max-h-40 flex-1 resize-none bg-transparent py-1.5 text-[15px] leading-relaxed text-ink placeholder:text-mute outline-none"></textarea>
               <button id="send" type="submit" title="Send"
-                class="rounded-2xl bg-primary p-2.5 text-[#102416] shadow-sm transition-opacity disabled:cursor-not-allowed disabled:opacity-40">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 19V5m-7 7 7-7 7 7" />
-                </svg>
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-primary text-[#102416] shadow-sm transition-opacity disabled:cursor-not-allowed disabled:opacity-40">
+                <iconify-icon icon="hugeicons:sent" class="text-[20px]"></iconify-icon>
               </button>
             </div>
             <p class="mt-2 text-center text-[11px] text-mute">Advice is informational — confirm pesticides &amp; doses
@@ -492,23 +465,54 @@
       return out + (inList ? "</ul>" : "");
     }
 
-    /* ── rendering ── */
+    window.copyText = function (btn) {
+      const text = decodeURIComponent(btn.getAttribute("data-copy-text"));
+      navigator.clipboard.writeText(text);
+      const icon = btn.querySelector("iconify-icon");
+      icon.setAttribute("icon", "hugeicons:tick-01");
+      icon.className = "text-[12px] text-primary";
+      setTimeout(() => {
+        icon.setAttribute("icon", "hugeicons:copy-01");
+        icon.className = "text-[12px]";
+      }, 2000);
+    };
+
+    function formatTime(ts) {
+      if (!ts) return "";
+      return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
     function renderMessage(m, animate = true) {
       const wrap = document.createElement("div");
       const anim = animate ? " anim-in" : "";
+      const timeStr = formatTime(m.ts);
+      const copyHtml = `<button type="button" onclick="window.copyText(this)" data-copy-text="${encodeURIComponent(m.text || '')}" class="text-mute hover:text-ink transition-colors flex items-center" title="Copy"><iconify-icon icon="hugeicons:copy-01" class="text-[12px]"></iconify-icon></button>`;
+
       if (m.role === "user") {
         wrap.className = "flex justify-end" + anim;
         wrap.innerHTML = `
-      <div class="max-w-[80%] rounded-[22px] rounded-br-md bg-bubble px-4 py-3 text-[14.5px] leading-relaxed text-bubble-ink shadow-sm">
-        ${m.img ? `<img src="${m.img}" alt="attached photo" class="mb-2 max-h-48 rounded-lg">` : ""}
-        <div class="msg-body">${md(m.text)}</div>
+      <div class="group flex flex-col items-end max-w-[80%]">
+        <div class="rounded-[22px] rounded-br-md bg-bubble px-4 py-3 text-[14.5px] leading-relaxed text-bubble-ink shadow-sm">
+          ${m.img ? `<img src="${m.img}" alt="attached photo" class="mb-2 max-h-48 rounded-lg">` : ""}
+          <div class="msg-body">${md(m.text)}</div>
+        </div>
+        <div class="text-[10.5px] text-mute mt-1.5 flex items-center gap-1.5 px-1">
+          <span>${timeStr}</span>
+          ${copyHtml}
+        </div>
       </div>`;
       } else {
         wrap.className = "flex gap-3" + anim;
         wrap.innerHTML = `
       <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-hairline bg-canvas-soft text-[14px] shadow-sm">🌾</div>
-      <div class="min-w-0 flex-1 pt-0.5 text-[14.5px] leading-relaxed text-ink">
-        <div class="msg-body">${md(m.text)}</div>
+      <div class="min-w-0 flex-1 group">
+        <div class="pt-0.5 text-[14.5px] leading-relaxed text-ink">
+          <div class="msg-body">${md(m.text)}</div>
+        </div>
+        <div class="text-[10.5px] text-mute mt-1.5 flex items-center gap-1.5">
+          <span>${timeStr}</span>
+          ${copyHtml}
+        </div>
       </div>`;
       }
       messages.appendChild(wrap);
@@ -522,9 +526,8 @@
     <div class="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-[20px] bg-primary text-3xl shadow-lg shadow-primary/20">🌾</div>
     <p class="mb-4 font-mono text-[10px] font-medium uppercase tracking-eyebrow text-mute">Crop diseases · Market prices · Weather</p>
     <h2 class="text-3xl font-semibold tracking-tight text-ink sm:text-4xl">Grow smarter, season after season.</h2>
-    <p class="mx-auto mt-3 max-w-md text-[15px] leading-relaxed text-body">Ask in English or සිංහල — type a question, or share a photo of a sick plant.</p>
-    
-    <p class="mt-5 text-[12px] text-mute">Choose a topic to get started, or use the message box below.</p>`;
+    <p class="mx-auto mt-3 max-w-md text-[15px] leading-relaxed text-body">Ask in English or සිංහල - type a question, or share a photo of a sick plant.</p>
+`;
       messages.appendChild(d);
       d.querySelectorAll("[data-empty-prompt]").forEach((button) => button.addEventListener("click", () => sendMessage(button.dataset.emptyPrompt)));
     }
@@ -549,8 +552,8 @@
       list.innerHTML = convos.map((c) => `
     <div data-convo="${c.id}" class="group flex cursor-pointer items-center gap-2 rounded-xl px-3 py-2.5 text-[13px] transition-colors ${c.id === activeId ? "bg-canvas text-ink border border-hairline shadow-sm" : "text-body hover:bg-canvas hover:text-ink border border-transparent"}">
       <span class="min-w-0 flex-1 truncate">${c.title.replace(/</g, "&lt;")}</span>
-      <button data-del="${c.id}" class="hidden shrink-0 rounded p-1 text-mute hover:text-ink group-hover:block" title="Delete chat">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14"/></svg>
+      <button data-del="${c.id}" class="hidden shrink-0 rounded p-1 text-red-500 hover:text-red-600 group-hover:block" title="Delete chat">
+        <iconify-icon icon="hugeicons:delete-02" class="text-[14px]"></iconify-icon>
       </button>
     </div>`).join("") || `<p class="px-2.5 py-2 text-[12px] text-mute">No chats yet</p>`;
       list.querySelectorAll("[data-convo]").forEach((el) => el.addEventListener("click", (e) => {
@@ -578,7 +581,7 @@
         <span class="block text-[13.5px] font-semibold text-ink">${a.label}</span>
         <span class="block text-[12px] leading-snug text-body">${a.desc}</span>
       </span>
-      ${a.id === selectedAgent ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="mt-1 shrink-0"><path d="M20 6 9 17l-5-5"/></svg>' : ""}
+      ${a.id === selectedAgent ? '<iconify-icon icon="hugeicons:tick-01" class="text-[#10b981] text-[16px] mt-1 shrink-0"></iconify-icon>' : ""}
     </button>`).join("");
       const a = AGENTS.find((x) => x.id === selectedAgent);
       $("agent-trigger-label").textContent = `${a.icon} ${a.label}`;
@@ -645,7 +648,7 @@
       busy = true; send.disabled = true;
 
       let c = activeConvo() || newConvo();
-      const userMsg = { role: "user", text: text.trim() || "(photo)", img: pendingImage?.dataUri || null };
+      const userMsg = { role: "user", text: text.trim() || "(photo)", img: pendingImage?.dataUri || null, ts: Date.now() };
       c.messages.push(userMsg);
       if (c.title === "New chat") c.title = userMsg.text.slice(0, 42);
       c.ts = Date.now(); saveConvos(); renderSidebar();
@@ -658,7 +661,7 @@
       const domain = guessDomain(payload.prompt, !!pendingImage);
       clearImage(); box.value = ""; autosize();
 
-      const botMsg = { role: "bot", text: "" };
+      const botMsg = { role: "bot", text: "", ts: Date.now() };
       const el = renderMessage(botMsg);
       const bodyEl = el.querySelector(".msg-body");
       bodyEl.innerHTML = "";
