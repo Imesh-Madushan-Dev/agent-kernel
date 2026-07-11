@@ -34,9 +34,7 @@ ART = r"""
    \|/   __  \|/   __  \|/
     |   (__)  |   (__)  |
  ~~~+~~~~~+~~~+~~~~~+~~~+~~~
-""".strip(
-    "\n"
-)
+""".strip("\n")
 
 AGENTS = {
     "orchestrator": ("🧭", "Router", "Sends your question to the right specialist"),
@@ -108,7 +106,9 @@ def _welcome(service: AgentService) -> None:
     _clear_screen()
     console.print(_header())
     console.print(_agent_panel(service))
-    console.print(Align.center(Text("Ask anything about your crops — type !h for commands, !q to quit", style="dim italic")))
+    console.print(
+        Align.center(Text("Ask anything about your crops — type !h for commands, !q to quit", style="dim italic"))
+    )
     console.print()
 
 
@@ -155,7 +155,11 @@ async def run() -> None:
             try:
                 icon, role, _ = AGENTS.get(name, ("🤖", "", ""))
                 # ponytail: AK hooks can't observe mid-run agent handoffs, so the spinner shows the entry agent
-                with console.status(f"[bold green3]{icon} {name}[/] [dim]· {role} is working on it…[/]", spinner="dots", spinner_style="green3"):
+                with console.status(
+                    f"[bold green3]{icon} {name}[/] [dim]· {role} is working on it…[/]",
+                    spinner="dots",
+                    spinner_style="green3",
+                ):
                     reply = await service.run(prompt=prompt)
                 console.print()
                 _print_reply(service.agent.name, reply)

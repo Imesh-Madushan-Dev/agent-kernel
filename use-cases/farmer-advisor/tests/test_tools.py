@@ -28,7 +28,8 @@ def test_get_price_with_market():
 
 
 def test_get_price_all_markets():
-    assert len(get_price("rice")["prices"]) == 3
+    prices = get_price("rice")["prices"]
+    assert {"Pettah", "Dambulla", "Kandy"} <= prices.keys()
 
 
 def test_get_price_unknown_crop():

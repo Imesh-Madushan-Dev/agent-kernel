@@ -24,4 +24,9 @@ def get_price(crop: str, market: str = "") -> dict:
         if match is None:
             return {"error": f"No data for market '{market}'. Available: {list(prices)}"}
         prices = {match: prices[match]}
-    return {"crop": crop.lower().strip(), "prices": prices, "unit": f"{data['currency']}/{data['unit']}", "as_of": data["as_of"]}
+    return {
+        "crop": crop.lower().strip(),
+        "prices": prices,
+        "unit": f"{data['currency']}/{data['unit']}",
+        "as_of": data["as_of"],
+    }

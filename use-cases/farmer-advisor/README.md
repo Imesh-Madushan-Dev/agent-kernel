@@ -14,7 +14,7 @@ A WhatsApp assistant the farmer already knows how to use. An **orchestrator** ag
 | --- | --- |
 | `orchestrator` | Classifies intent, hands off to a specialist (never answers itself) |
 | `crop_disease` | Diagnoses from described symptoms **or a leaf photo** (Gemini vision + local knowledge base), gives treatment + prevention |
-| `market_price` | Current crop prices per market (Pettah, Dambulla, Kandy) |
+| `market_price` | Current crop prices across the markets in the bundled price feed |
 | `weather` | 3-day forecast + spraying/irrigation advice |
 
 Guardrails run as Agent Kernel pre-execution hooks on every agent: **PII redaction** (phone/NIC) and a **content filter** that blocks prompt injection and off-topic requests. Session memory is handled by the AK session store (in-memory; switch to Redis in `config.yaml` for production). The REST chat API runs in **streaming mode** (`execution.mode: stream`), so the web UI renders replies token by token.

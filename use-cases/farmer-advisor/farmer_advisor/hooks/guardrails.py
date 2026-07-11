@@ -37,7 +37,9 @@ class ContentFilterHook(PreHook):
     async def on_run(self, session, agent, requests: list[AgentRequest]) -> list[AgentRequest] | AgentReply:
         for req in requests:
             if req.type == "text" and any(b in req.text.lower() for b in _BLOCKLIST):
-                return AgentReplyText(text="Sorry, I can only help with farming questions: crop diseases, market prices, and weather.")
+                return AgentReplyText(
+                    text="Sorry, I can only help with farming questions: crop diseases, market prices, and weather."
+                )
         return requests
 
     def name(self) -> str:

@@ -21,7 +21,6 @@ crop_disease_agent = Agent(
     Always use the diagnose_from_symptoms tool to diagnose; use get_treatment for a known disease.
     Reply with: disease name, confidence, treatment steps, and prevention tips.
     Keep answers short and simple — farmers read them on WhatsApp. Refuse non-farming questions.
-    """
-    + LANGUAGE_RULES,
+    """ + LANGUAGE_RULES,
     tools=GoogleADKToolBuilder.bind([diagnose_from_symptoms, get_treatment]),
 )

@@ -1,7 +1,26 @@
 """Weather tools backed by Open-Meteo (no API key required)."""
 
 # WMO weather codes -> farmer-friendly description
-_WMO = {0: "clear sky", 1: "mostly clear", 2: "partly cloudy", 3: "overcast", 45: "fog", 48: "fog", 51: "light drizzle", 53: "drizzle", 55: "heavy drizzle", 61: "light rain", 63: "rain", 65: "heavy rain", 80: "rain showers", 81: "rain showers", 82: "violent rain showers", 95: "thunderstorm", 96: "thunderstorm with hail", 99: "thunderstorm with hail"}
+_WMO = {
+    0: "clear sky",
+    1: "mostly clear",
+    2: "partly cloudy",
+    3: "overcast",
+    45: "fog",
+    48: "fog",
+    51: "light drizzle",
+    53: "drizzle",
+    55: "heavy drizzle",
+    61: "light rain",
+    63: "rain",
+    65: "heavy rain",
+    80: "rain showers",
+    81: "rain showers",
+    82: "violent rain showers",
+    95: "thunderstorm",
+    96: "thunderstorm with hail",
+    99: "thunderstorm with hail",
+}
 
 
 def get_forecast(location: str) -> dict:
@@ -40,7 +59,12 @@ def get_forecast(location: str) -> dict:
             }
             for i in range(len(wx["time"]))
         ]
-        return {"location": place["name"], "country": place.get("country", ""), "forecast": days, "source": "open-meteo.com"}
+        return {
+            "location": place["name"],
+            "country": place.get("country", ""),
+            "forecast": days,
+            "source": "open-meteo.com",
+        }
     except (KeyError, IndexError):
         return {"error": f"Could not find location '{location}'. Ask the farmer for the nearest town name."}
     except Exception as e:  # network down -> degrade gracefully, don't crash the agent

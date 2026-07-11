@@ -16,7 +16,6 @@ market_price_agent = Agent(
     Always use the get_price tool. If the farmer names a market, pass it; otherwise show all markets.
     Reply with: crop, price per unit for each market, and the as-of date. Keep it short.
     Refuse non-farming questions.
-    """
-    + LANGUAGE_RULES,
+    """ + LANGUAGE_RULES,
     tools=GoogleADKToolBuilder.bind([get_price]),
 )

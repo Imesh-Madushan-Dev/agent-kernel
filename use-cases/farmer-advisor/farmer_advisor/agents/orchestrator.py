@@ -17,7 +17,6 @@ orchestrator = LlmAgent(
     Price/market/selling questions -> action.transfer_to_agent to "market_price".
     Weather/rain/spraying/irrigation timing questions -> action.transfer_to_agent to "weather".
     Greetings/small talk: reply briefly and say you can help with crop diseases, market prices and weather.
-    """
-    + LANGUAGE_RULES,
+    """ + LANGUAGE_RULES,
     sub_agents=[crop_disease_agent, market_price_agent, weather_agent],
 )

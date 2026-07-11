@@ -29,7 +29,10 @@ def diagnose_from_symptoms(crop: str, symptoms: str) -> dict:
         if score > best_score:
             best, best_score = entry, score
     if best is None:
-        return {"disease": "unknown", "message": f"No match for '{crop}' with those symptoms. Ask the farmer for more details (spots, color, affected part)."}
+        return {
+            "disease": "unknown",
+            "message": f"No match for '{crop}' with those symptoms. Ask the farmer for more details (spots, color, affected part).",
+        }
     return {
         "disease": best["disease"],
         "confidence": "high" if best_score >= 3 else "medium" if best_score >= 2 else "low",
