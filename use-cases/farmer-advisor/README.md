@@ -76,6 +76,46 @@ uv run python main.py serve
 
 **WhatsApp channel:** serve the AK API (`uv run python main.py serve`), expose it publicly (e.g. ngrok), and set the Meta webhook to `<public-url>/whatsapp/webhook` with your verify token. `config.yaml` already routes WhatsApp messages to the `orchestrator` agent — including photos of sick plants.
 
+**Telegram channel:** The app already exposes `/telegram/webhook` and routes it to `orchestrator`; it is an API route, not a file in this project. The bot token and webhook secret belong in `.env` (never commit them). Telegram requires a public HTTPS URL, so install and authenticate ngrok before registering the webhook.
+
+On Windows, install ngrok, then reopen PowerShell so its command is available:
+
+```powershell
+winget install Ngrok.Ngrok
+```
+
+Create a free ngrok account, copy an authtoken from <https://dashboard.ngrok.com/get-started/your-authtoken>, then save it locally:
+
+```powershell
+ngrok config add-authtoken YOUR_NGROK_AUTHTOKEN
+```
+
+Start the app and tunnel in separate terminals. Your webhook URL is the `https://...` forwarding URL shown by ngrok, followed by `/telegram/webhook`:
+
+```bash
+uv run python main.py serve
+# in another terminal:
+ngrok http 8000
+```
+
+Register that URL with Telegram (replace both placeholders with the values from `.env`):
+
+```powershell
+$botToken = "YOUR_BOT_TOKEN"
+$webhookSecret = "YOUR_WEBHOOK_SECRET"
+$body = @{
+  url = "https://YOUR-NGROK-URL/telegram/webhook"
+  secret_token = $webhookSecret
+} | ConvertTo-Json
+
+Invoke-RestMethod -Method Post `
+  -Uri "https://api.telegram.org/bot$botToken/setWebhook" `
+  -ContentType "application/json" `
+  -Body $body
+```
+
+When ngrok gives you a different URL, run the command again with the new URL.
+
 **Tests:**
 
 ```bash
